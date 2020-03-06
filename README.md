@@ -18,3 +18,6 @@ Request an access code, where `oktaClientId` is the client ID of an okta applica
 $ curl --request GET 'http://localhost:21232/get_access_token?clientId=<oktaClientId>&oktaBaseUrl=<oktaBaseUrl>'
 {"token_type":"Bearer","expires_in":3600,"access_token":<accessToken>}
 ```
+
+** Postman script
+If you use Postman, you can copy/paste the contents of `postman-pre-request.js` into the pre-request script of any collection or request that requires okta authentication.  As long as your okta callback server is running, this will fetch an access token prior to the request, assigning it to the environment variable `CURRENT_ACCESS_TOKEN`.  Then you can refer to this environment variable wherever you'd normally insert a bearer token.
