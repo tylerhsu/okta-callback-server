@@ -50,16 +50,7 @@ async function handleGetAccessToken(clientId, oktaBaseUrl) {
     code_challenge: codeChallenge,
   });
 
-  let authCodeResponse;
-  try {
-    authCodeResponse = await request(authCodeUrl);
-  } catch (err) {
-    throw new Error(`Problem getting auth code from okta: ${err}`);
-  }
-
-  if (!authCodeResponse.headers.location) {
-    throw new Error(`Unexpected response from auth code request: ${authCodeResponse.statusCode} ${authCodeResponse.body}`);
-  }
+  childProcess.spawn('open', [authCodeUrl]).unref();
 
   return new Promise((resolve, reject) => {
     const state = {
@@ -81,7 +72,6 @@ async function handleGetAccessToken(clientId, oktaBaseUrl) {
     setTimeout(() => {
       state.reject(new Error('Timed out'));
     }, 60000);
-    childProcess.spawn('open', [authCodeResponse.headers.location]).unref();
   });
 }
 
